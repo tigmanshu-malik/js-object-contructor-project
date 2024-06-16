@@ -1,57 +1,64 @@
-const myLib = []
-let i = 0
+const myLib = [];
 
-function display(num){
+function display() {
+    const container = document.getElementById('card-container');
+    container.innerHTML = '';
 
-    const container = document.getElementById('card-container')
-
-    container.innerHTML += `<div>book: ${myLib[num].title} <br> author: ${myLib[num].author}
-    Pages: ${myLib[num].pages} <br> Read: ${myLib[num].read} <br></div>`
+    for (let i = 0; i < myLib.length; i++) {
+        container.innerHTML += `
+        <div>
+            Book: ${myLib[i].title} <br>
+            Author: ${myLib[i].author} <br>
+            Pages: ${myLib[i].pages} <br>
+            Read: ${myLib[i].read ? 'Yes' : 'No'} <br>
+            <button onclick="deleteBook(${i})">Delete</button>
+        </div>`;
+    }
 }
 
-function book(title, author, pages, read){
-
-    this.title = title
-    this.author = author
-    this.pages = pages
-    this.read = read
-
-    myLib.push(this)
-    display(i++)
-
+function deleteBook(index) {
+    myLib.splice(index, 1);
+    display();
 }
 
-document.addEventListener('DOMContentLoaded', function(){
+function book(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
 
-    const openForm = document.getElementById('open-form')
-    const closeForm = document.getElementById('close')
-    const form = document.getElementById('form')
+    myLib.push(this);
+    display();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const openForm = document.getElementById('open-form');
+    const closeForm = document.getElementById('close');
+    const form = document.getElementById('form');
+    const overlay = document.getElementById('overlay');
     
-    openForm.addEventListener('click', function(){
+    openForm.addEventListener('click', function() {
+        overlay.style.display = 'flex';
+    });
 
-        overlay.style.display = "flex"
-    })
-
-    closeForm.addEventListener('click', function(){
-
-        overlay.style.display = "none"
-    })
+    closeForm.addEventListener('click', function() {
+        overlay.style.display = 'none';
+    });
 
     overlay.addEventListener('click', function(event) {
         if (event.target === overlay) {
             overlay.style.display = 'none';
-        }})
+        }
+    });
 
-    form.addEventListener('submit', function(event){
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
 
-        event.preventDefault()
+        const title = document.getElementById('book').value;
+        const author = document.getElementById('author').value;
+        const pages = document.getElementById('pages').value;
+        const read = document.getElementById('read').checked; 
 
-        const title = document.getElementById('book').value
-        const author = document.getElementById('author').value
-        const pages= document.getElementById('pages').value
-        const read = document.getElementById('read').value
-
-        book(title, author, pages, read)
-
-    })    
-})
+        new book(title, author, pages, read);
+    });
+});

@@ -134,5 +134,15 @@ form button {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: auto;
     color:white;
-    gap: 10px;
+    gap: 15px;
+}
+
+.Card-container button{
+
+  margin-top: 18px;
+    font-size: 20px;
+    padding: 5px;
+    font-family: "Playwrite FR Moderne", cursive;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
